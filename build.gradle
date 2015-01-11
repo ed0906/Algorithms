@@ -1,13 +1,15 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-sourceCompatibility = 1.8
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	compile 'edu.stanford.nlp:stanford-corenlp:3.5.0'
+	compile 'edu.stanford.nlp:stanford-corenlp:3.5.0:models'
 	compile 'commons-codec:commons-codec:1.5'
 	compile 'org.apache.commons:commons-lang3:3.0'
     compile 'org.javassist:javassist:3.15.0-GA'
