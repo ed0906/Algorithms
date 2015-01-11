@@ -249,7 +249,7 @@ public class Matrix {
 			builder.append("|\n");
 		}
 		int length = builder.length();
-		builder.delete(length-2, length);
+		builder.delete(length-1, length);
 		return builder.toString();
 	}
 }
