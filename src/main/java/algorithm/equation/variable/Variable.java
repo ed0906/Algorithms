@@ -1,6 +1,9 @@
 package algorithm.equation.variable;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import algorithm.equation.Expression;
+import algorithm.equation.constant.Constant;
 
 public class Variable implements Expression {
 
@@ -35,5 +38,17 @@ public class Variable implements Expression {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	
+	@Override
+	public Expression partialDifferential(String var) {
+		if(name.equals(var)){
+			return new Constant(1);
+		}return new Constant(0);		
 	}
 }

@@ -1,5 +1,7 @@
 package algorithm.equation.constant;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import algorithm.equation.Expression;
 
 public class Constant implements Expression{
@@ -21,5 +23,15 @@ public class Constant implements Expression{
 			return "" + (int) value;
 		}
 		return "" + value;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	
+	@Override
+	public Expression partialDifferential(String var) {
+		return new Constant(0);
 	}
 }

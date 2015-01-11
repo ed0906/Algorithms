@@ -1,6 +1,9 @@
 package algorithm.equation.operation;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import algorithm.equation.Expression;
+import algorithm.equation.constant.Constant;
 
 public class Divide implements Expression{
 
@@ -20,5 +23,18 @@ public class Divide implements Expression{
 	@Override
 	public String toString() {
 		return lhs.toString() + " / " + rhs.toString();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	
+
+	@Override
+	public Expression partialDifferential(String var) {
+		Expression exp1 = new Multiply(lhs, new Power(rhs, new Constant(-1)));
+		Expression exp2 = new Multiply(new Power(rhs,new Constant(-1)),lhs.partialDifferential(var));
+		return new Add(exp1, exp2);
 	}
 }

@@ -7,8 +7,9 @@ import org.junit.Test;
 
 import algorithm.equation.constant.Constant;
 import algorithm.equation.operation.Add;
-import algorithm.equation.operation.Log10;
+import algorithm.equation.operation.Ln;
 import algorithm.equation.operation.Multiply;
+import algorithm.equation.operation.Power;
 import algorithm.equation.operation.Subtract;
 import algorithm.equation.variable.Variable;
 
@@ -67,7 +68,7 @@ public class EquationTest {
 	public void shouldLogAConstant() {
 		Constant c1 = new Constant(1);
 		
-		Expression sum = new Log10(c1);
+		Expression sum = new Ln(c1);
 		Double result = sum.evaluate();
 		
 		assertEquals(0, result.intValue());
@@ -88,5 +89,24 @@ public class EquationTest {
 		var.setValue(new Constant(2));
 		
 		assertEquals(2, var.evaluate().intValue());
+	}
+	
+	@Test
+	public void shouldDifferentiateVariable() {
+		Variable var = new Variable("x");
+		
+		Expression dVar = var.partialDifferential("x");
+		
+		assertEquals(1, dVar.evaluate().intValue());
+	}
+	
+	@Test
+	public void shouldDifferentiateAVariableSquared() {
+		Variable var = new Variable("x", new Constant(1));
+		Power varSquared = new Power(var, new Constant(2));
+		
+		Expression dVar = varSquared.partialDifferential("x");
+		
+		assertEquals(2, dVar.evaluate().intValue());
 	}
 }

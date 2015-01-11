@@ -1,5 +1,7 @@
 package algorithm.equation.operation;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import algorithm.equation.Expression;
 
 public class Subtract implements Expression{
@@ -20,5 +22,15 @@ public class Subtract implements Expression{
 	@Override
 	public String toString() {
 		return lhs.toString() + " - " + rhs.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	
+	@Override
+	public Expression partialDifferential(String var) {
+		return new Subtract(lhs.partialDifferential(var), rhs.partialDifferential(var));
 	}
 }

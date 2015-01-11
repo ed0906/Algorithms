@@ -1,25 +1,25 @@
-package algorithm.equation;
+package algorithm.equation.operation;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import algorithm.equation.Expression;
 
-public class SubExpression implements Expression{
-
+public class Ln implements Expression{
+	
 	private Expression value;
 	
-	public SubExpression(Expression value) {
+	public Ln(Expression value) {
 		this.value = value;
 	}
-	
+
 	@Override
 	public Double evaluate() {
-		return value.evaluate();
+		return Math.log(value.evaluate());
 	}
-	
+
 	@Override
 	public String toString() {
-		return "(" + value.evaluate() + ")";
+		return "Ln(" + value.toString() + ")";
 	}
 
 	@Override
@@ -29,6 +29,6 @@ public class SubExpression implements Expression{
 	
 	@Override
 	public Expression partialDifferential(String var) {
-		return value.partialDifferential(var);
+		return new Divide(value.partialDifferential(var), value);
 	}
 }

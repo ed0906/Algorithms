@@ -1,5 +1,7 @@
 package algorithm.equation.operation;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import algorithm.equation.Expression;
 
 public class Multiply implements Expression{
@@ -38,5 +40,28 @@ public class Multiply implements Expression{
 		}
 		builder.delete(builder.length()-3, builder.length());
 		return builder.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+	
+	@Override
+	public Expression partialDifferential(String var) {
+		int n = elements.length;
+		Expression[] components = new Expression[n*(n-1)];
+		
+		for(int i=0; i<n; n++){
+			int counter = 0;
+			for(int j=0; j<n; j++){
+				if(i != j){
+					components[counter] = new Multiply(elements[i], elements[j].partialDifferential(var));
+					counter++;
+				}
+			}
+		}
+		
+		return new Add(components);
 	}
 }
