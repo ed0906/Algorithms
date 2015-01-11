@@ -13,8 +13,8 @@ public class RegressionHypothesis extends Hypothesis {
 	}
 
 	@Override
-	public Matrix calculate(Matrix x) {
-		return theta.transpose().multiplyBy(x);
+	public Matrix evaluate(Matrix x) {
+		return x.multiplyBy(theta);
 	}
 
 }

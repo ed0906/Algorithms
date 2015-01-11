@@ -14,7 +14,7 @@ public class NaturalLanguageProcessorTest {
 
 	@Before
 	public void setUp() {
-		nlp = new NaturalLanguageProcessor("Tesco Will Need More Asset Sales to Make Its Revival Plan Work");
+		nlp = new NaturalLanguageProcessor("Today is a good day");
 	}
 
 	@Test

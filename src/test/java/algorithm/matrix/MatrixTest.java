@@ -9,7 +9,7 @@ public class MatrixTest {
 	private double FLOAT_ERROR = 0.1;
 
 	@Test
-	public void shouldInitializeAs3x3Matrix() {
+	public void shouldInitializeMatrixSize() {
 		Matrix matrix = new Matrix(3, 3);
 		
 		assertEquals(3, matrix.rowCount());
@@ -26,7 +26,7 @@ public class MatrixTest {
 	}
 
 	@Test
-	public void shouldFillWithOnes() {
+	public void shouldFillMatrix() {
 		Matrix matrix = new Matrix(3, 3);
 		matrix.fill(1);
 
@@ -35,6 +35,17 @@ public class MatrixTest {
 		assertEquals(1, matrix.get(2, 2), FLOAT_ERROR);
 	}
 
+	@Test
+	public void shouldFillPartOfMatrix() {
+		Matrix m = new Matrix(2,2);
+		m.fill(0,1,1,1,1);
+		
+		assertEquals(0, m.get(0, 0), FLOAT_ERROR);
+		assertEquals(0, m.get(1, 0), FLOAT_ERROR);
+		assertEquals(1, m.get(0, 1), FLOAT_ERROR);
+		assertEquals(1, m.get(1, 1), FLOAT_ERROR);
+	}
+	
 	@Test
 	public void shouldSetIndividualElements() {
 		Matrix matrix = new Matrix(3, 3);
@@ -147,6 +158,18 @@ public class MatrixTest {
 	}
 
 	@Test
+	public void shouldRaiseMatrixToAPower() {
+		Matrix m = new Matrix(2,2);
+		m.fill(2);
+		m = m.toPowerOf(2);
+		
+		assertEquals(2, m.rowCount());
+		assertEquals(2, m.columnCount());
+		assertEquals(4, m.get(0, 0), FLOAT_ERROR);
+		assertEquals(4, m.get(1, 1), FLOAT_ERROR);
+	}
+	
+	@Test
 	public void shouldCreateSubMatrix() {
 		Matrix m = new Matrix(2,2);
 		m.fill(1);
@@ -157,6 +180,21 @@ public class MatrixTest {
 		assertEquals(1, mSub.columnCount());
 		assertEquals(1, mSub.get(0, 0), FLOAT_ERROR);
 		assertEquals(1, mSub.get(1, 0), FLOAT_ERROR);
+	}
+	
+	@Test
+	public void shouldSetSubMatrix() {
+		Matrix m1 = new Matrix(3,3);
+		m1.fill(1);
+		Matrix mSub = new Matrix(2,2);
+		mSub.fill(2);
 		
+		Matrix mOut = m1.setSubMatrix(1, 1, mSub);
+		
+		assertEquals(3,mOut.columnCount());
+		assertEquals(3,mOut.rowCount());
+		assertEquals(1,mOut.get(0, 0), FLOAT_ERROR);
+		assertEquals(2,mOut.get(1, 1), FLOAT_ERROR);
+		assertEquals(2,mOut.get(2, 2), FLOAT_ERROR);
 	}
 }

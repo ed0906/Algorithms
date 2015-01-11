@@ -8,7 +8,7 @@ public abstract class Hypothesis {
 	protected Matrix theta;
 	
 	protected Hypothesis(Matrix theta) {
-		if(theta.rowCount() > 1) {
+		if(theta.columnCount() > 1) {
 			throw new MatrixDimensionException("Theta must be a column vector");
 		}
 		this.theta = theta;
@@ -22,9 +22,9 @@ public abstract class Hypothesis {
 		return this.theta;
 	}
 
-	public abstract Matrix calculate(final Matrix x);
+	public abstract Matrix evaluate(final Matrix x);
 	
 	public int getSeriesCount() {
-		return theta.columnCount();
+		return theta.rowCount();
 	}
 }

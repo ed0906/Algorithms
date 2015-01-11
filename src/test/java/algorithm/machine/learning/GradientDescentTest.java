@@ -16,28 +16,23 @@ public class GradientDescentTest {
 
 	@Before
 	public void setUp() {
-		Matrix x = new Matrix(2, 3);
-
-		// x0
-		x.set(0, 0, 1);
-		x.set(0, 1, 1);
-		x.set(0, 2, 1);
-
+		Matrix x = new Matrix(3, 1);
+		
 		// x1
-		x.set(1, 0, 1);
-		x.set(1, 1, 2);
-		x.set(1, 2, 3);
+		x.set(0, 0, 1);
+		x.set(1, 0, 2);
+		x.set(2, 0, 3);
 
-		Matrix y = new Matrix(1, 3);
+		Matrix y = new Matrix(3, 1);
 		y.set(0, 0, 1);
-		y.set(0, 1, 2);
-		y.set(0, 2, 3);
+		y.set(1, 0, 2);
+		y.set(2, 0, 3);
 
 		api = new GradientDescent(x, y);
 	}
 
 	@Test
-	public void shouldStartWithZeroHypothesis() {
+	public void shouldStartWithZeroHypothesisWeights() {
 		Hypothesis h = api.getHypothesis();
 		Matrix theta = h.getWeights();
 

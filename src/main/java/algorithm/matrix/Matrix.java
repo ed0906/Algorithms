@@ -27,6 +27,20 @@ public class Matrix {
 		}
 	}
 
+	public void fill(int r1, int r2, int c1, int c2, double number){
+		if(r1 > rows || r1 < 0 || r1 > r2 || r2 > rows){
+			throw new MatrixDimensionException("Input row indices are invalid");
+		}else if(c1 > cols || c1 < 0 || c1 > c2 || c2 > cols){
+			throw new MatrixDimensionException("Input column indices are invalid");
+		}
+		
+		for(int r=r1; r<r2+1; r++){
+			for(int c=c1; c<c2+1; c++){
+				set(r,c,number);
+			}
+		}
+	}
+	
 	public void set(int row, int col, double value) {
 		matrix[row][col] = value;
 	}
@@ -39,7 +53,7 @@ public class Matrix {
 		return cols;
 	}
 
-	public Matrix multiplyBy(Matrix m) {
+	public Matrix multiplyBy(final Matrix m) {
 		int mRows = m.rowCount();
 		int mCols = m.columnCount();
 
@@ -76,7 +90,7 @@ public class Matrix {
 		return output;
 	}
 
-	public Matrix add(Matrix m) {
+	public Matrix add(final Matrix m) {
 		if (rows != m.rowCount() || cols != m.columnCount()) {
 			throw new MatrixDimensionException(
 					"Cannot add matrices of different dimensions");
@@ -105,7 +119,7 @@ public class Matrix {
 		return output;
 	}
 
-	public Matrix subtract(Matrix m) {
+	public Matrix subtract(final Matrix m) {
 		if (rows != m.rowCount() || cols != m.columnCount()) {
 			throw new MatrixDimensionException(
 					"Cannot subtract matrices of different dimensions");
@@ -144,7 +158,7 @@ public class Matrix {
 		return output;
 	}
 
-	public Matrix multiplyElementsBy(Matrix m) {
+	public Matrix multiplyElementsBy(final Matrix m) {
 		if (cols != m.columnCount() || rows != m.rowCount()) {
 			throw new MatrixDimensionException(
 					"Column & row count must be the same");
@@ -180,6 +194,24 @@ public class Matrix {
 		return output;
 	}
 
+	public Matrix setSubMatrix(int rTopLeft, int cTopLeft, final Matrix m) {
+		if(rTopLeft + m.rowCount() > rows || cTopLeft + m.columnCount() > cols) {
+			throw new MatrixDimensionException("Matrix m does not fit inside");
+		}
+		
+		Matrix output = copy();
+		
+		int r2 = rTopLeft + m.rowCount();
+		int c2 = cTopLeft + m.columnCount();
+		for(int r=rTopLeft; r<r2; r++){
+			for(int c=cTopLeft; c<c2; c++) {
+				output.set(r,c, m.get(r-rTopLeft, c-cTopLeft));
+			}
+		}
+		
+		return output;
+	}
+	
 	public double sum() {
 		double sum = 0;
 		for (int r = 0; r < rows; r++) {
@@ -203,5 +235,21 @@ public class Matrix {
 			}
 		}
 		return output;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(rows*(2*cols+3));
+		for(int r=0; r<rows; r++){
+			builder.append("|");
+			for(int c=0; c<cols; c++){
+				builder.append(get(r,c) + " ");
+			}
+			builder.deleteCharAt(builder.length()-1);
+			builder.append("|\n");
+		}
+		int length = builder.length();
+		builder.delete(length-2, length);
+		return builder.toString();
 	}
 }

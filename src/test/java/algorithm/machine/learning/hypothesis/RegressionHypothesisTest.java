@@ -16,27 +16,27 @@ public class RegressionHypothesisTest {
 	@Before
 	public void setUp() {
 		hypothesis = new RegressionHypothesis(2);
-		x = new Matrix(2,3);
+		x = new Matrix(3,2);
 		
 		//x0
 		x.set(0, 0, 1);
-		x.set(0, 1, 1);
-		x.set(0, 2, 1);
+		x.set(1, 0, 1);
+		x.set(2, 0, 1);
 		
 		//x1
-		x.set(1, 0, 1);
+		x.set(0, 1, 1);
 		x.set(1, 1, 2);
-		x.set(1, 2, 3);
+		x.set(2, 1, 3);
 	}
 	
 	@Test
 	public void shouldCalculateHypothesis() {
-		Matrix hOutput = hypothesis.calculate(x);
+		Matrix hOutput = hypothesis.evaluate(x);
 		
-		assertEquals(1, hOutput.rowCount());
-		assertEquals(3, hOutput.columnCount());
+		assertEquals(3, hOutput.rowCount());
+		assertEquals(1, hOutput.columnCount());
 		assertEquals(0, hOutput.get(0, 0), FLOAT_ERROR);
-		assertEquals(0, hOutput.get(0, 1), FLOAT_ERROR);
-		assertEquals(0, hOutput.get(0, 2), FLOAT_ERROR);
+		assertEquals(0, hOutput.get(1, 0), FLOAT_ERROR);
+		assertEquals(0, hOutput.get(2, 0), FLOAT_ERROR);
 	}
 }
