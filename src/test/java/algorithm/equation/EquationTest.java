@@ -10,6 +10,7 @@ import algorithm.equation.operation.Add;
 import algorithm.equation.operation.Ln;
 import algorithm.equation.operation.Multiply;
 import algorithm.equation.operation.Power;
+import algorithm.equation.operation.Sine;
 import algorithm.equation.operation.Subtract;
 import algorithm.equation.variable.Variable;
 
@@ -72,7 +73,7 @@ public class EquationTest {
 		Double result = sum.evaluate();
 		
 		assertEquals(0, result.intValue());
-		assertEquals("Log10(1)", sum.toString());
+		assertEquals("Ln(1)", sum.toString());
 	}
 	
 	@Test(expected = RuntimeException.class)
@@ -108,5 +109,24 @@ public class EquationTest {
 		Expression dVar = varSquared.partialDifferential("x");
 		
 		assertEquals(2, dVar.evaluate().intValue());
+	}
+	
+	@Test
+	public void shouldDifferentiateNaturalLog() {
+		Variable var = new Variable("x", new Constant(0.5));
+		Expression logE = new Ln(var);
+		
+		Expression dLogE = logE.partialDifferential("x");
+		
+		assertEquals(2, dLogE.evaluate().intValue());
+	}
+	
+	@Test
+	public void sineShouldDifferentiateToCos() {
+		Sine sine = new Sine(new Variable("x", new Constant(0)));
+		
+		Expression diff = sine.partialDifferential("x");
+		
+		assertEquals(1, diff.evaluate().intValue());
 	}
 }

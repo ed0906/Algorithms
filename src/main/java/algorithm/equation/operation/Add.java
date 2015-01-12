@@ -23,7 +23,7 @@ public class Add implements Expression{
 	public Double evaluate() {
 		double value = 0;
 		for(Expression e : elements){
-			value *= e.evaluate();
+			value += e.evaluate();
 		}
 		
 		return new Double(value);
