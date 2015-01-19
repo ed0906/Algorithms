@@ -14,12 +14,12 @@ public class NaturalLanguageProcessorTest {
 
 	@Before
 	public void setUp() {
-		nlp = new NaturalLanguageProcessor("Today is a good day");
+		nlp = new NaturalLanguageProcessor();
 	}
 
 	@Test
 	public void testNLP() throws IOException {
-		List<Sentiment> scores = nlp.getScentenceSentiment();
+		List<Sentiment> scores = nlp.getScentenceSentiment("Today is a good day!");
 		
 		assertEquals(Sentiment.POSITIVE, scores.get(0));
 	}

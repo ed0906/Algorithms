@@ -17,16 +17,15 @@ import edu.stanford.nlp.util.CoreMap;
 public class NaturalLanguageProcessor {
 
 	private StanfordCoreNLP pipeline;
-    private Annotation annotation;
 
-	public NaturalLanguageProcessor(String input) {
+	public NaturalLanguageProcessor() {
 		Properties props = new Properties();
 		props.put("annotators", "tokenize, ssplit, pos, parse, sentiment");
 		pipeline = new StanfordCoreNLP(props);
-		annotation = new Annotation(input);
 	}
 
-	public List<Sentiment> getScentenceSentiment() throws IOException {
+	public List<Sentiment> getScentenceSentiment(String input) throws IOException {
+		Annotation annotation = new Annotation(input);
 		pipeline.annotate(annotation);
 		List<Sentiment> scores = Lists.newArrayList();
 		for (CoreMap sentence : annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
