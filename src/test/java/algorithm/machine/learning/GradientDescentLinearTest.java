@@ -8,11 +8,11 @@ import org.junit.Test;
 import algorithm.machine.learning.hypothesis.Hypothesis;
 import algorithm.matrix.Matrix;
 
-public class GradientDescentTest {
+public class GradientDescentLinearTest {
 
 	private final static double FLOAT_ERROR = 0.1;
 	private final static double EXCEPTABLE_ERROR = 0.3;
-	private GradientDescent api;
+	private LinearGradientDescent api;
 
 	@Before
 	public void setUp() {
@@ -28,7 +28,7 @@ public class GradientDescentTest {
 		y.set(1, 0, 2);
 		y.set(2, 0, 3);
 
-		api = new GradientDescent(x, y);
+		api = new LinearGradientDescent(x, y);
 	}
 
 	@Test
