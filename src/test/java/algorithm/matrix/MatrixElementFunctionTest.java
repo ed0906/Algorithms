@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class MatrixElementFunctionTest {
 
-	private final static double FLOAT_ERROR = 0.1;
+	private final static double FLOAT_ERROR = 0.01;
 	private Matrix m;
 	
 	@Before

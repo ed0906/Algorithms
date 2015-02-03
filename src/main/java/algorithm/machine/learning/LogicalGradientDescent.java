@@ -3,57 +3,54 @@ package algorithm.machine.learning;
 import algorithm.machine.learning.hypothesis.Hypothesis;
 import algorithm.machine.learning.hypothesis.LogicalHypothesis;
 import algorithm.matrix.Matrix;
+import algorithm.matrix.MatrixElementFunction;
 
-public class LogicalGradientDescent extends GradientDescent{
+public class LogicalGradientDescent extends GradientDescent {
 
-	private final static int ITERATIONS = 100;
-	private final static double SMALL_CHANGE = 0.01;
-	private double ALPHA = 0.1;
-	private Hypothesis hypothesis;
-	private double lastJ;
-	
-	public LogicalGradientDescent(final Matrix x, final Matrix y){
-		super(x,y);
-		this.hypothesis = new LogicalHypothesis(this.x.columnCount());
-		this.lastJ = Double.MAX_VALUE;
+	private MatrixElementFunction log;
+
+	public LogicalGradientDescent(final Matrix x, final Matrix y) {
+		super(x, y, new LogicalHypothesis(x.columnCount() + 1));
 	}
-	
-	public Hypothesis getHypothesis() {
-		return this.hypothesis;
-	}
-	
-	public Hypothesis getMinimizedHypothesis() {
-		int n = 0;
-		boolean repeat = true;
-		double j;
-		while(repeat) {
-			j = iterate();
-			n++;
-			
-			if(n > ITERATIONS) {
-				repeat = false;
-			} else if(lastJ-j < SMALL_CHANGE) {
-				if(lastJ-j > 0) {
-					ALPHA *= 0.8;
-				} else{
-					repeat = false;
-				}
-			}
-			lastJ = j;
-		}
-		return hypothesis;
-	}
-	
+
 	public double iterate() {
 		Matrix h = hypothesis.evaluate(x); // Hypothesis
 		Matrix theta = hypothesis.getWeights();
 		Matrix residual = h.subtract(y);
-		
+
 		Matrix jDifferential = x.transpose().multiplyBy(residual); // d(j)/dTheta
-		
-		theta = theta.subtract(jDifferential.multiplyBy(ALPHA)); // Adjusted theta
+
+		theta = theta.subtract(jDifferential.multiplyBy(ALPHA)); // Adjusted
+																	// theta
 		hypothesis = new LogicalHypothesis(theta);
-		
-		return residual.transpose().multiplyBy(residual).get(0, 0); // Cost Function
+
+		return getJ(hypothesis); // Cost
+									// Function
+	}
+
+	private double getJ(Hypothesis h) {
+		if (log == null) {
+			log = new MatrixElementFunction() {
+				@Override
+				protected double applyFunction(double element) {
+					return Math.log10(element);
+				}
+			};
+		}
+
+		Matrix hOfX = h.evaluate(x);
+		Matrix minusY = y.multiplyBy(-1);
+		Matrix logH = log.evaluate(hOfX).transpose();
+
+		Matrix part1 = minusY.multiplyBy(logH);
+
+		Matrix yMinusOne = y.subtract(1);
+		Matrix oneMinusH = hOfX.subtract(1).multiplyBy(-1);
+		Matrix logOneMinusH = log.evaluate(oneMinusH).transpose();
+
+		Matrix part2 = yMinusOne.multiplyBy(logOneMinusH);
+
+		return part1.add(part2).get(0, 0);
+
 	}
 }
